@@ -17,7 +17,7 @@ import it.rdev.rubrica.model.DAO;
  * @param <T> entità su cui effettuare le operazioni di CRUD
  * @param <D> tipo di cui è formato l'ID dell'entità da gestire (tipo del database)
  */
-abstract class AbstractDAO<T, D> implements DAO<T> {
+public abstract class AbstractDAO<T, D> implements DAO<T> {
 	
 	/**
 	 * Metodo utilizzato per l'esecuzione di queries che non richiedono parametri di input
