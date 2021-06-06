@@ -25,7 +25,7 @@ public class ContactDAOImpl extends AbstractDAO<Contact, BigInteger> implements 
 		try {
 			// Recupero tutti i record dal database ATTENZIONE: La cardinalità dei risultati sarà data dal prodotto cartesiano
 			// dei records di emails per phones per ogni contatto
-			ResultSet rs = this.executeQuery("SELECT id, name, surname, email, phone FROM " + TABLE_NAME + " c left outer join emails e on c.id = e.id_contact left outer join phones p on p.id_contact = c.id ");
+			ResultSet rs = this.executeQuery("SELECT c.id, c.name, c.surname, e.email, p.number FROM " + TABLE_NAME + " c left outer join emails e on c.id = e.id left outer join phones p on p.id = c.id ");
 			while(rs.next()) {
 				Contact c = new Contact()
 						.setId(rs.getInt("id"));
@@ -43,8 +43,8 @@ public class ContactDAOImpl extends AbstractDAO<Contact, BigInteger> implements 
 				// perché ho utilizzato dei TreeSet
 				if( rs.getString("email") != null )
 					c.addEmail(rs.getString("email"));
-				if( rs.getString("phone") != null )
-					c.addPhoneNumber(rs.getString("phone"));
+				if( rs.getString("number") != null )
+					c.addPhoneNumber(rs.getString("number"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -72,8 +72,8 @@ public class ContactDAOImpl extends AbstractDAO<Contact, BigInteger> implements 
 
 	@Override
 	public boolean update(Contact t) throws SQLException {
-		this.executeUpdate("DELETE FROM emails WHERE id_contact = ?", t.getId());
-		this.executeUpdate("DELETE FROM phones WHERE id_contact = ?", t.getId());
+		this.executeUpdate("DELETE FROM emails WHERE id= ?", t.getId());
+		this.executeUpdate("DELETE FROM phones WHERE id = ?", t.getId());
 		
 		insertEmailAndPhone(t, t.getId());
 		return true;
@@ -87,7 +87,7 @@ public class ContactDAOImpl extends AbstractDAO<Contact, BigInteger> implements 
 			Iterator<String> emailIt = c.getEmails().iterator();
 			StringBuffer sb = new StringBuffer("INSERT INTO emails VALUES ");
 			for(int i = 0; i<emailsParam.length && emailIt.hasNext();) {
-				if( i > 0) {
+				if(i > 0) {
 					sb.append(", ");
 				}
 				sb.append("(?, ?)");
