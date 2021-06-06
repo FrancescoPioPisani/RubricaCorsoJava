@@ -43,8 +43,11 @@ public class ContactDAOFile extends AbstractDAO<Contact, BigInteger> implements 
 
 	@Override
 	public boolean delete(Contact t) {
-		File tmp = new File(ConfigKeys.FILE_PATH.getKey()+"\\tmpFileRubrica.txt");
-		File source = new File(ConfigKeys.FILE_PATH.getKey()+"\\rubrica.txt");
+		File source = DataSource.getInstance().getFile();
+		String p = DataSource.getInstance().getPath();
+		DataSource.getInstance().setPath(ConfigKeys.FILE_PATH.getKey()+"\\tmpFileRubrica.txt");
+		File tmp = new File(DataSource.getInstance().getPath());
+		DataSource.getInstance().setPath(p);
 		
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(source));
@@ -79,7 +82,7 @@ public class ContactDAOFile extends AbstractDAO<Contact, BigInteger> implements 
 	public List<Contact> getAll() {
 		List<Contact> contacts = new ArrayList<>();
 		try {
-			File source = new File(ConfigKeys.FILE_PATH.getKey()+"\\rubrica.txt");
+			File source = DataSource.getInstance().getFile();
 			Scanner lettore = new Scanner(source);
 			while (lettore.hasNextLine()) {
 				Contact c = new Contact()
@@ -105,7 +108,7 @@ public class ContactDAOFile extends AbstractDAO<Contact, BigInteger> implements 
 	
 	public static void leggiFile() {
 		try {
-			File source = new File(ConfigKeys.FILE_PATH.getKey()+"\\rubrica.txt");
+			File source = DataSource.getInstance().getFile();
 			Scanner lettore = new Scanner (source);
 			while (lettore.hasNextLine()) {
 				String record = lettore.nextLine();
@@ -126,8 +129,12 @@ public class ContactDAOFile extends AbstractDAO<Contact, BigInteger> implements 
 	
 	
 	public static void copia() {
-		File tmp = new File(ConfigKeys.FILE_PATH.getKey()+"\\tmpFileRubrica.txt");
-		File source = new File(ConfigKeys.FILE_PATH.getKey()+"\\rubrica.txt");
+		File source = DataSource.getInstance().getFile();
+		String p = DataSource.getInstance().getPath();
+		DataSource.getInstance().setPath(ConfigKeys.FILE_PATH.getKey()+"\\tmpFileRubrica.txt");
+		File tmp = new File(DataSource.getInstance().getPath());
+		DataSource.getInstance().setPath(p);
+		
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(source));
 			BufferedWriter writer = new BufferedWriter(new FileWriter(tmp));

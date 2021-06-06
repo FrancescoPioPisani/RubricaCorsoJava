@@ -6,6 +6,9 @@ public class RubricaApp {
 
 	public static void main(String[] strings) {
 		new AppFrame().setVisible(true);
+		
+		
+		
 	}
 	
 }

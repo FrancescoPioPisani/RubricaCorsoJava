@@ -73,7 +73,7 @@ public class ContactDAOImpl extends AbstractDAO<Contact, BigInteger> implements 
 	@Override
 	public boolean update(Contact t) throws SQLException {
 		this.executeUpdate("DELETE FROM emails WHERE id= ?", t.getId());
-		this.executeUpdate("DELETE FROM phones WHERE id = ?", t.getId());
+		this.executeUpdate("DELETE FROM phones WHERE id= ?", t.getId());
 		
 		insertEmailAndPhone(t, t.getId());
 		return true;

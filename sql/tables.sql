@@ -7,14 +7,14 @@ CREATE TABLE contacts (
 
 CREATE TABLE emails (
   email varchar(50) NOT NULL,
-  id_contact bigint unsigned NOT NULL,
+  id bigint unsigned NOT NULL,
   PRIMARY KEY(email),
-  FOREIGN KEY (id_contact) REFERENCES contacts(id) ON DELETE CASCADE
+  FOREIGN KEY (id) REFERENCES contacts(id) ON DELETE CASCADE
 );
 
 CREATE TABLE phones (
-  phone varchar(50) NOT NULL,
-  id_contact bigint unsigned NOT NULL,
+  number varchar(50) NOT NULL,
+  id bigint unsigned NOT NULL,
   PRIMARY KEY(phone),
   FOREIGN KEY (id_contact) REFERENCES contacts(id) ON DELETE CASCADE
 );
